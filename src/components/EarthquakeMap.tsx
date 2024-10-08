@@ -1,22 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Map, Marker } from "@vis.gl/react-google-maps";
-import { LoaderCircle, CircleX } from "lucide-react";
+import { CircleX, LoaderCircle } from "lucide-react";
 import { fetchEarthquakes } from "../services/apiUsgs";
-
-interface Earthquake {
-  id: string;
-  properties: {
-    mag: number;
-    place: string;
-  };
-  geometry: {
-    coordinates: [number, number];
-  };
-}
-
-interface EarthquakeResponse {
-  features: Earthquake[];
-}
+import { EarthquakeResponse } from "../types";
 
 function EarthquakeMap() {
   const { data, isLoading, error } = useQuery<EarthquakeResponse>({
@@ -36,7 +22,7 @@ function EarthquakeMap() {
       <div className="mx-auto flex h-screen max-w-screen-md flex-col items-center justify-center">
         <CircleX className="mb-4 size-1/5 text-red-500" />
         <h1 className="text-center text-2xl font-bold">
-          An error occurred: {error.message}
+          An error occurred: {error?.message || "Something went wrong"}
         </h1>
       </div>
     );
